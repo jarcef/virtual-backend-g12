@@ -16,3 +16,17 @@ elif edad > 10:
 else:
     print('Eres muy niño')
 print('Finalizó el programa')
+
+#Validar si un numero (ingresos de una persona) ingresado por teclado es
+#* mayor a 500: indicar que no recibe el bono yanapay
+#* entre 500 y mayor o igual que 250: indicar que si recibe el bono
+#* es menor que 250: indicar que recibe el bono y un balon de gas
+
+numero = int(input('Ingresa un número:'))
+
+if(numero > 500):
+    print('No recibe el bono yanapay')
+elif (numero>=250 and numero<500):
+    print('Si recibe bono')
+else:
+    print('Recibe el bono y un balon de gas')
