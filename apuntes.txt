@@ -1,1 +1,0 @@
-python -m venv <nombre_entorno> crea un entorno virtual en la ubicación de la terminal
