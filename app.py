@@ -1,19 +1,24 @@
 from flask import Flask, render_template
 from flask_restful import Api
-from controllers.usuarios import RegistroController, LoginController, UsuarioResponseDTO
+from controllers.usuarios import (RegistroController, 
+                                    LoginController,
+                                    ResetPasswordController) 
 from config import validador, conexion
 from os import environ
 from dotenv import load_dotenv
 from flask_cors import CORS
+from dtos.registro_dto import UsuarioResponseDTO
 from flask_jwt import JWT, jwt_required, current_identity
 from seguridad import autenticador, identificador
 from datetime import timedelta
+from seed import categoriaSeed
+from controllers.movimientos import MovimientoController
 
 load_dotenv()
 
 app = Flask(__name__)
 CORS(app=app)
-app.config['SECRET_KEY']= 'secreto'
+app.config['SECRET_KEY']= environ.get('JWT_SECRET_KEY')
 app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('DATABASE_URL')
 app.config['JWT_AUTH_URL_RULE']='/login-jwt'
 app.config['JWT_AUTH_USERNAME_KEY']='correo'
@@ -28,6 +33,10 @@ validador.init_app(app)
 conexion.init_app(app)
 
 conexion.create_all(app=app)
+
+@app.before_first_request
+def seed():
+    categoriaSeed()
 
 @app.route('/')
 def inicio():
@@ -69,6 +78,8 @@ def perfil_usuario():
 
 api.add_resource(RegistroController, '/registro')
 api.add_resource(LoginController, '/login')
+api.add_resource(MovimientoController,'/movimiento','/movimientos')
+api.add_resource(ResetPasswordController, '/reset-password')
 
 if(__name__=='__main__'):
     app.run(debug=True, port=8080)

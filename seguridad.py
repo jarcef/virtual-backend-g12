@@ -33,10 +33,6 @@ def identificador(payload):
         Usuario).filter_by(id = payload['identity']).first()
     if usuarioEncontrado:
         #Esta información me servirá para cuando quiera acceder al usuario actual de la petición
-        return {
-            'id': usuarioEncontrado.id,
-            'nombre': usuarioEncontrado.nombre,
-            'correo': usuarioEncontrado.correo
-        }
+        return usuarioEncontrado
     else:
         return None

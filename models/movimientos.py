@@ -11,7 +11,7 @@ class Movimiento(conexion.Model):
     tipo = Column(type_=types.Enum('INGRESO','EGRESO'), nullable=False)
     descripcion = Column(type_=types.String(45))
     moneda = Column(type_=types.Enum('SOLES','DOLARES','EUROS'))
-    fecha_creacion = Column(types_=types.DateTime(), default=datetime.now)
+    fecha_creacion = Column(type_=types.DateTime(), default=datetime.now)
     #Relaciones 
 
 
@@ -19,6 +19,6 @@ class Movimiento(conexion.Model):
 
     usuario = orm.relationship('Usuario', backref='usuario_movimientos')
 
-    categoria_id = Column(ForeignKey(column='categoria.id'), type_=types.Integer, nullable=False)
+    categoria_id = Column(ForeignKey(column='categorias.id'), type_=types.Integer, nullable=False)
     
     categoria = orm.relationship('Categoria', backref='categoria_movimientos')
