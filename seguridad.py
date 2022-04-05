@@ -12,6 +12,8 @@ def autenticador(username, password):
         usuarioEncontrado = conexion.session.query(
             Usuario).filter_by(correo=username).first()
         if usuarioEncontrado:
+            print(usuarioEncontrado.password)
+            print(password)
             validacion = checkpw(bytes(password,'utf-8'), 
                                 bytes(usuarioEncontrado.password,'utf-8'))
             if validacion is True:

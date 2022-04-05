@@ -7,6 +7,9 @@ from smtplib import SMTP
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from os import environ
+from cryptography.fernet import Fernet
+from datetime import datetime, timedelta
+import json
 #from sendgrid.helpers.mail import Email, To, Content, Mail
 
 class RegistroController(Resource):
@@ -62,8 +65,20 @@ class ResetPasswordController(Resource):
               #  texto = "Hola, es un mensaje de prueba."
                 mensaje['Subject'] = 'Reiniciar contraseña Monedero APP'
 
-                html = open('./email_templates/forgot-password.html').read().format(
-                    usuarioEncontrado.nombre, usuarioEncontrado.correo, environ.get('URL_FRONT')
+                Fernet.generate_key()
+                fernet = Fernet(environ.get('FERNET_SECRET_KEY'))
+
+                mensaje_secreto = {
+                    'fecha_caducidad': str(datetime.now()+timedelta(hours=1)),
+                    'id_usuario': usuarioEncontrado.id
+                }
+
+                mensaje_secreto_str = json.dumps(mensaje_secreto)
+                mensaje_encriptado = fernet.encrypt(bytes(mensaje_secreto_str,'utf-8'))
+
+                html = open('./email_templates/joshua_template.html').read().format(
+                    usuarioEncontrado.nombre, environ.get('URL_FRONT')+'/reset-password?token='
+                    +mensaje_encriptado.decode('utf-8')
                 )
 
                 # Si queremos un generador con diseños https://beefree.io/
@@ -89,6 +104,7 @@ class ResetPasswordController(Resource):
                 # '''.format(usuarioEncontrado.nombre, usuarioEncontrado.correo, environ.get('URL_FRONT'))
 
                # mensaje.attach(MIMEText(texto,'plain'))
+
                 mensaje.attach(MIMEText(html,'html'))
                 # inicio el envio del correo
                 # outlook > outlook.office365.com 
