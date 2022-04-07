@@ -25,7 +25,7 @@ class Tareas(models.Model):
     default=CategoriaOpciones.TODO)
     fecha_caducidad = models.DateTimeField(db_column='fecha_caducidad')
     importancia= models.IntegerField(null=False)
-    descripcion = models.TextField()
+    descripcion = models.TextField(null=True)
 
     createdAt = models.DateTimeField(auto_now_add=True, db_column='created_at')
     updatedAt = models.DateTimeField(auto_now=True, db_column='updated_at')
