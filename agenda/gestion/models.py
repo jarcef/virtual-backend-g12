@@ -32,14 +32,19 @@ class Tareas(models.Model):
 
     etiquetas = models.ManyToManyField(to=Etiqueta, related_name='tareas')
 
-    #Forma 2 : usando una lista de tuplas
+    foto = models.ImageField(
+        upload_to ='multimedia',
+        null=True
+    )
+
+    class Meta:
+        db_table = 'tareas'
+   
+
+   #Forma 2 : usando una lista de tuplas
     # categoria = models.CharField(max_length=45, choices=[
     #   ('TODO','TO_DO'),
     #   ('IP','IN_PROGRESS'),
     #   ('DONE','DONE'),
     #   ('CANCELLED','CANCELLED')
     # ], default='TO_DO')
-
-    class Meta:
-        db_table = 'tareas'
-   
