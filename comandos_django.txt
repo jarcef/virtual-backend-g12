@@ -13,3 +13,7 @@ python manage.py sqlmigrate NOMBRE_APP NUMERO_MIGRACION > mostrará el sql de la
 
 NOTA: python manage.py migrate NOMBRE_APP NUMERO_MIGRACION > efectuar dicha migracion o se puede revertir hasta la migracion seleccionada 
 (todas las migraciones efectuadas queden sin efecto) si queremos revetir absolutamente todas las migraciones podemos colocar en NUMERO_MIGRACION zero
+
+python manage.py createsuperuser > crea un superusuario para que pueda utilizado en el panel administrativo
+
+No se puede crear aplicaciones con los nombres de las aplicaciones de Django: auth, contenttypes, message, users, admin, sessions, staticfiles
