@@ -13,6 +13,10 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 from pathlib import Path
 from os import environ
 from dotenv import load_dotenv
+from datetime import timedelta
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 
 load_dotenv()
 
@@ -42,9 +46,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'cloudinary',
     'autorizacion',
     'fact_electr',
-    'menu'
+    'menu',    
 ]
 
 MIDDLEWARE = [
@@ -133,3 +138,22 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+#Sirve para definir cuando modificamos el contenido del modelo auth_user indicar ahora a cual tiene que hacer caso
+AUTH_USER_MODEL = 'autorizacion.Usuario'
+
+REST_FRAMEWORK = { 
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication', 
+        ]
+    }
+
+SIMPLE_JWT = { 
+    'ACCESS_TOKEN_LIFETIME': timedelta(hours=1)
+}
+
+cloudinary.config(
+    cloud_name = environ.get('CLOUDINARY_NAME'),
+    api_key=environ.get('CLOUDINARY_API_KEY'),
+    api_secret=environ.get('CLOUDINARY_SECRET')
+)
