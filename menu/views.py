@@ -57,6 +57,9 @@ class AgregarDetallePedidoApiView(CreateAPIView):
         stock = Stock.objects.filter(fecha=timezone.now(),
                                     platoId=data.validated_data.get('platoId')).first()
         print(stock)
+        if stock is None:
+            return Response(data={'message':'No hay stock para ese producto para el dia de hoy'},
+                                    status=status.HTTP_400_BAD_REQUEST)
         # información que se envía al front
         #{
         #    "cantidad":2,
