@@ -31,9 +31,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-x7i7gk2kq&d#@jp7@#(m_p27biyamy#i7&fh$lxy^y0_*qmk=%'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost','127.0.0.1']
 
 
 # Application definition
@@ -45,8 +45,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # Librerias
     'rest_framework',
     'cloudinary',
+    'corsheaders',
+    # Aplicaciones
     'autorizacion',
     'fact_electr',
     'menu',    
@@ -54,7 +57,9 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',    
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -157,3 +162,17 @@ cloudinary.config(
     api_key=environ.get('CLOUDINARY_API_KEY'),
     api_secret=environ.get('CLOUDINARY_SECRET')
 )
+
+# Sirve para indicar que jalara los estilos de los archivos estáticos
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# Para indicar donde se guardaran los archivos staticos (css, js, html) usados por DRF, y el panel administrativo
+# Se usa para cuando corramos el comando 'python manage.py collectstatic'
+STATIC_ROOT = BASE_DIR / 'static_files'
+
+# Permitiras todos los orígenes (https://mipagina.com http://fraudes.com)
+# CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOWED_ORIGINS = ['http://127.0.0.1:5500']
+
+CORS_ALLOWED_METHODS = ['GET','POST']
+
+CORS_ALLOWED_HEADERS = ['content-type', 'authorization','origin']
