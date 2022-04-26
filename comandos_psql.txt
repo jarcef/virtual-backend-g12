@@ -1,5 +1,0 @@
-
-Para ver la lista completa de comandos: https://www.postgresql.org/docs/current/app-psql.html
-\l > Lista todas las bases de datos de mi servidor
-\c > DATABASE_NAME > cambiará a la bd escrita
-\q > Termina la sesión en el PSQL
