@@ -1,0 +1,14 @@
+/*
+  Warnings:
+
+  - The values [VERDURADOR] on the enum `CATEGORIA_PRODUCTO` will be removed. If these variants are still used in the database, this will fail.
+
+*/
+-- AlterEnum
+BEGIN;
+CREATE TYPE "CATEGORIA_PRODUCTO_new" AS ENUM ('VERDURA', 'FRUTA', 'ELECTRODOMESTICO', 'LIMPIEZA', 'OTROS');
+ALTER TABLE "productos" ALTER COLUMN "categoria" TYPE "CATEGORIA_PRODUCTO_new" USING ("categoria"::text::"CATEGORIA_PRODUCTO_new");
+ALTER TYPE "CATEGORIA_PRODUCTO" RENAME TO "CATEGORIA_PRODUCTO_old";
+ALTER TYPE "CATEGORIA_PRODUCTO_new" RENAME TO "CATEGORIA_PRODUCTO";
+DROP TYPE "CATEGORIA_PRODUCTO_old";
+COMMIT;
