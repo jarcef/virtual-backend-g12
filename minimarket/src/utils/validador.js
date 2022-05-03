@@ -1,3 +1,4 @@
+import prisma from "@prisma/client";
 import jsonwebtoken from "jsonwebtoken";
 import { Prisma } from "../prisma.js";
 
@@ -32,3 +33,27 @@ export async function verificarToken(req, res, next) {
         });
     }
 }
+
+export const validarAdmin = async (req, res, next) => {
+
+    if (req.user.rol !== prisma.USUARIO_ROL.ADMINISTRADOR){
+        return res.status(401).json({ 
+            message: 
+                "El usuario no tiene los privilegios para realizar esta operación",
+        });        
+    } else {
+        next();
+    }
+};
+
+export const validarCliente = async (req, res, next) => {
+
+    if (req.user.rol !== prisma.USUARIO_ROL.CLIENTE){
+        return res.status(401).json({
+            message: 
+                "El usuario no tiene privilegios para realizar esta operación",
+        });
+    } else {
+        next();
+    }
+};
