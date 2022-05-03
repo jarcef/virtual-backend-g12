@@ -21,7 +21,7 @@ app.get("/", (req, res) =>{
 app.use(productosRouter);
 app.use(usuarioRouter);
 app.use(pedidosRouter);
-app.use(detallePedidoRouter)
+app.use(detallePedidoRouter);
 
 app.listen(PORT , () => {    
     console.log(`Servidor corriendo exitosamente en el puerto ${PORT}`);
