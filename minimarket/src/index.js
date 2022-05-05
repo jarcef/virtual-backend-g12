@@ -3,10 +3,15 @@ import { pedidosRouter } from "./routes/pedidos.routes.js";
 import {productosRouter} from "./routes/productos.routes.js";
 import { usuarioRouter } from  "./routes/usuarios.routes.js";
 import { detallePedidoRouter } from "./routes/detallePedido.routes.js";
-
-console.log(process.env.EMAIL_PASSWORD)
+import { pagosRouter } from "./routes/pagos.routes.js";
+import mercadopago from  'mercadopago'
 
 const app = express();
+
+mercadopago.configure({
+    access_token: process.env.MP_ACCESS_TOKEN,
+    integrador_id: process.env.MP_INTEGRATOR_ID,
+});
 
 app.use(json());
 
@@ -22,6 +27,7 @@ app.use(productosRouter);
 app.use(usuarioRouter);
 app.use(pedidosRouter);
 app.use(detallePedidoRouter);
+app.use(pagosRouter);
 
 app.listen(PORT , () => {    
     console.log(`Servidor corriendo exitosamente en el puerto ${PORT}`);

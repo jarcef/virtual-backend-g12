@@ -5,16 +5,33 @@ import {Prisma} from "../prisma.js";
 export const crearDetallePedido = async (req, res) => {
     try {
         const data = crearDetallePedidoRequestDTO(req.body);
-       
-        await Prisma.$transaction([
-            Prisma.detallePedido.create({data}),
-            Prisma.pedido.update({
-                data: { total: 10.0 },
-                where: { id: data.pedidoId},
-            }),
-        ]);
-        await Prisma.detallePedido.create({data});
+
+        await Prisma.$transaction(async () => {
+
+            const { precio } = await Prisma.producto.findUnique({
+                where: { id: data.productoId },
+                rejectOnNotFound: false,
+                select: { precio: true },
+            });
         
+
+        const { id, total } = await Prisma.pedido.findUnique({
+            where: { id: data.pedidoId },
+            select: { id: true, total: true },
+            rejectOnNotFound: true,
+        });
+
+        const { subTotal } = await Prisma.detallePedido.create({ 
+            data: { ...data, subTotal: precio * data.cantidad },
+            select: { subTotal: true },
+        });
+
+        await Prisma.pedido.update({
+            data: { total: total + subTotal },
+            where: { id },
+        });
+
+    });       
         return res.status(201).json({
                 message: "Detalle creado exitosamente",
             });

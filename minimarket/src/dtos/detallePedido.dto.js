@@ -2,8 +2,7 @@ import prisma from '@prisma/client'
 import validator from "validator";
 
 export const crearDetallePedidoRequestDTO = ({
-    cantidad,
-    subTotal,
+    cantidad,  
     unidadMedida,
     productoId,
     pedidoId,
@@ -11,17 +10,10 @@ export const crearDetallePedidoRequestDTO = ({
     //hacer las validaciones necesarias
     const errores = [];
 
-    if (validator.isEmpty(cantidad.toString()) || !validator.isNumeric(cantidad.toString())) {
+      if (validator.isEmpty(cantidad.toString()) || !validator.isNumeric(cantidad.toString())) {
         errores.map("Cantidad debe ser un número y es requerido");
-    }
-
-    if (
-        validator.isEmpty(subTotal.toString()) ||
-        !validator.isFloat(subTotal.toString())
-      ) {
-        errores.map("subTotal debe ser un flotante y es requerido");
       }
-    
+
       if (
         validator.isEmpty(unidadMedida) ||
         (unidadMedida !== prisma.UM_PRODUCTO.KG &&
@@ -50,8 +42,7 @@ export const crearDetallePedidoRequestDTO = ({
         throw new Error(errores);
       } else {
         return {
-          cantidad,
-          subTotal,
+          cantidad,        
           unidadMedida,
           productoId,
           pedidoId,
