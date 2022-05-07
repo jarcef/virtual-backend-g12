@@ -1,0 +1,6 @@
+#si hacemos la copia total de nuestro proyecto, entonces crearemos 
+
+node_modules/
+.env
+apuntes-mongo.txt
+Dockerfile
